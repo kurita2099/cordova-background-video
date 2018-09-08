@@ -151,7 +151,7 @@
     {
         if([camera caseInsensitiveCompare:@"front"] == NSOrderedSame)
         {
-            if (device.position == AVCaptureDevicePositionFront )
+            if ([device position] == AVCaptureDevicePositionFront )
             {
                 captureDevice = device;
                 break;
@@ -159,7 +159,7 @@
         }
         else if ([camera caseInsensitiveCompare:@"BACK"] == NSOrderedSame)
         {
-            if (device.position == AVCaptureDevicePositionBack )
+            if ([device position] == AVCaptureDevicePositionBack )
             {
                 captureDevice = device;
                 break;
