@@ -54,7 +54,7 @@
     //Capture session
     session = [[AVCaptureSession alloc] init];
     [session setSessionPreset:AVCaptureSessionPreset1920x1080];
-
+　　 [session setSessionPreset:AVCaptureSessionPresetMedium];
     //Get the front camera and set the capture device
     AVCaptureDevice *inputDevice = [self getCamera: self.camera];
 
@@ -65,6 +65,7 @@
 
     //capture device output
     CMTime maxDuration = CMTimeMakeWithSeconds(1800, 1);
+    
 
     output = [[AVCaptureMovieFileOutput alloc]init];
     output.maxRecordedDuration = maxDuration;
