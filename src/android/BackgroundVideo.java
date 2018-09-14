@@ -38,9 +38,16 @@ public class BackgroundVideo extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         // FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/";
-        FILE_PATH = cordova.getActivity().getCacheDir().toString() + "/";
+        //FILE_PATH = cordova.getActivity().getCacheDir().toString() + "/";
         // FILE_PATH = cordova.getActivity().getFilesDir().toString() + "/";
         //FILE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + "/";
+        // Create the cache directory if it doesn't exist
+        // Use internal storage
+        File cache = null;
+        cache = cordova.getActivity().getCacheDir();
+        // Create the cache directory if it doesn't exist
+        cache.mkdirs();
+        FILE_PATH = cache.getAbsolutePath();
     }
 
 
