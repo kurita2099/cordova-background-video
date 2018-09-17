@@ -87,23 +87,23 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             mRecorder.setCamera(mCamera);
 
             CamcorderProfile profile;
-            //解像度が低いと　録画できない端末がある
+            
             if (false){//CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_480P)) {
                 profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_480P);
-                profile.videoFrameWidth = 720;
-                profile.videoFrameHeight = 480;
+                //profile.videoFrameWidth = 720;
+                //profile.videoFrameHeight = 480;
                 Log.w(TAG, "QUALITY_480P");
             } else {
                 if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_720P)) {
                     profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_720P);
-                    profile.videoFrameWidth = 1280;
-                    profile.videoFrameHeight = 720;
+                    //profile.videoFrameWidth = 1280;
+                    //profile.videoFrameHeight = 720;
                     Log.w(TAG, "QUALITY_720P");
                 } else {
                     if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_1080P)) {
                       profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_1080P);
-                      profile.videoFrameWidth = 1920;
-                      profile.videoFrameHeight = 1080;
+                      //profile.videoFrameWidth = 1920;
+                      //profile.videoFrameHeight = 1080;
                       Log.w(TAG, "QUALITY_1080P");
                     } else {
                       profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
@@ -121,7 +121,20 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mRecorder.setVideoFrameRate(profile.videoFrameRate);
-            mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
+            List<Camera.Size> sizes = cameraParameters.getSupportedPreviewSizes();
+                int diff = Integer.MAX_VALUE;
+                Camera.Size bestSize = null;
+                for (Iterator iterator = sizes.iterator(); iterator.hasNext();) {
+                    Camera.Size size = (Camera.Size) iterator.next();
+//カメラ解像度に近い値を設定する
+                    int newDiff = Math.abs(size.width - profile.videoFrameWidth) + Math.abs(size.height - profile.videoFrameHeight);
+                    if (diff > newDiff){
+                        diff = newDiff;
+                        bestSize = size;
+                    }
+                }
+            mRecorder.setVideoSize(bestSize.width, bestSize.height);
+            //mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
             mRecorder.setVideoEncodingBitRate(profile.videoBitRate);
             mRecorder.setAudioEncodingBitRate(profile.audioBitRate);
             mRecorder.setAudioChannels(profile.audioChannels);
