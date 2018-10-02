@@ -12,6 +12,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Iterator;
+import java.util.List;
 import java.io.IOException;
 
 @SuppressWarnings("deprecation")
@@ -88,7 +90,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
             CamcorderProfile profile;
             
-            if (false){//CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_480P)) {
+            if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_480P)) {
                 profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_480P);
                 //profile.videoFrameWidth = 720;
                 //profile.videoFrameHeight = 480;
